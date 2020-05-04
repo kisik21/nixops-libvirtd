@@ -1,9 +1,10 @@
 { nixopsLibvirtd ? { outPath = ./.; revCount = 0; shortRev = "abcdef"; rev = "HEAD"; }
 , nixpkgs ? <nixpkgs>
 , officialRelease ? false
+, system ? "x86_64-linux"
 }:
 let
-  pkgs = import nixpkgs {};
+  pkgs = import nixpkgs { inherit system; };
   version =  "1.7" + (if officialRelease then "" else "pre${toString nixopsLibvirtd.revCount}_${nixopsLibvirtd.shortRev}");
 in
   rec {
