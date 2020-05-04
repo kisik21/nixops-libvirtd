@@ -6,7 +6,7 @@
 let
   pkgs = import nixpkgs { inherit system; };
   version =  "1.7" + (if officialRelease then ""
-                      else if nixopsLibvirtd ? lastModifiedDate then then "pre${builtins.substring 0 8 nixopsLibvirtd.lastModifiedDate}.${nixopsLibvirtd.shortRev}"
+                      else if nixopsLibvirtd ? lastModifiedDate then "pre${builtins.substring 0 8 nixopsLibvirtd.lastModifiedDate}.${nixopsLibvirtd.shortRev}"
                       else "pre${toString nixopsLibvirtd.revCount}_${nixopsLibvirtd.shortRev}");
 in
   rec {
