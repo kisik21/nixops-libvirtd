@@ -1,11 +1,13 @@
 { nixopsLibvirtd ? { outPath = ./.; revCount = 0; shortRev = "abcdef"; rev = "HEAD"; }
 , nixpkgs ? <nixpkgs>
 , officialRelease ? false
-, system ? "x86_64-linux"
+, system ? builtins.currentSystem
 }:
 let
   pkgs = import nixpkgs { inherit system; };
-  version =  "1.7" + (if officialRelease then "" else "pre${toString nixopsLibvirtd.revCount}_${nixopsLibvirtd.shortRev}");
+  version =  "1.7" + (if officialRelease then ""
+                      else if nixopsLibvirtd ? lastModifiedDate then then "pre${builtins.substring 0 8 nixopsLibvirtd.lastModifiedDate}.${nixopsLibvirtd.shortRev}"
+                      else "pre${toString nixopsLibvirtd.revCount}_${nixopsLibvirtd.shortRev}");
 in
   rec {
     build = pkgs.lib.genAttrs [ "x86_64-linux" "i686-linux" "x86_64-darwin" ] (system:
